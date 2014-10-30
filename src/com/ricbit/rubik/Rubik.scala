@@ -12,7 +12,7 @@ trait Rubik {
   class Face(val colors: Vector[Vector[Color]]) { 
     val y = colors.length
     val x = colors.head.length
-    require(colors.forall(_.length == x))
+    require(colors forall (_.length == x))
 			  
     override def toString() = colors mkString "\n"
     
@@ -33,6 +33,7 @@ trait Rubik {
     val y = front.y
     val x = front.x
     val z = left.y
+    val faces = List[Cube => Face](_.front, _.back, _.left, _.right, _.up, _.down)
     
     def rotateClockwise(slice: Int): Cube = {
       new Cube(
@@ -46,15 +47,10 @@ trait Rubik {
     }
         
     def ==(that:Cube) = 
-      this.front == that.front &&
-      this.back == that.back &&
-      this.left == that.left &&
-      this.right == that.right &&
-      this.up == that.up &&
-      this.down == that.down
+      faces forall (x => x(this) == x(that)) 
       
     override def toString = 
-      List(front, back, left, right, up, down) mkString "---\n" 
+      faces map (x => x(this)) mkString "---\n" 
   }
   
 }
