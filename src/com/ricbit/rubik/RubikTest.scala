@@ -17,17 +17,17 @@ class RubikSuite extends FunSuite {
                  Vector(Red, Green, White),
                  Vector(Green, Yellow, Green))),
                new Face(Vector(
-                 Vector(Red, Orange, Blue),
-                 Vector(Orange, Red, Yellow),
-                 Vector(Red, White, White))),
+                 Vector(Blue, Yellow, White),
+                 Vector(Orange, Red, White),
+                 Vector(Red, Orange, Red))), 
                new Face(Vector(
-                 Vector(Blue, Red, Yellow),
-                 Vector(White, Orange, White),
-                 Vector(Orange, Red, Orange))),
+                 Vector(Orange, White, Blue),
+                 Vector(Red, Orange, Red),
+                 Vector(Orange, White, Yellow))),
                new Face(Vector(
-                 Vector(White, Red, Blue),
+                 Vector(White, Yellow, Yellow),
                  Vector(Green, White, Green),
-                 Vector(Yellow, Yellow, White))),
+                 Vector(Blue, Red, White))),
                new Face(Vector(
                  Vector(Blue, Blue, White),
                  Vector(Green, Yellow, Blue),
@@ -43,7 +43,7 @@ class RubikSuite extends FunSuite {
           Vector(Blue, Yellow, Red)))
       // This should throw.
       intercept[IllegalArgumentException] {
-  	    val fail = new Face(Vector(
+        val fail = new Face(Vector(
     	  Vector(Red, Blue, Yellow),
     	  Vector(Orange, Red, White),
     	  Vector(Blue, Yellow, Red, Yellow)))
@@ -78,8 +78,51 @@ class RubikSuite extends FunSuite {
     }
   }
   
+  test("Move a slice from Face to Face") {
+    new RubikTest {
+      val first = new Face(Vector(
+          Vector(Red, Blue, Yellow),
+          Vector(Orange, Red, White),
+          Vector(Blue, Yellow, Red)))
+      val second = new Face(Vector(
+          Vector(Blue, Orange, Red),
+          Vector(Yellow, Red, Blue),
+          Vector(Red, White, Yellow)))
+      val expected = new Face(Vector(
+          Vector(Red, Blue, Yellow),
+          Vector(Yellow, Red, Blue),
+          Vector(Blue, Yellow, Red)))
+      assert(first.takeSliceFrom(second, 1) == expected)
+    }
+  }
+
   test("Rotate a cube") {
     new RubikTest {
+      val expected = new Cube(new Face(Vector(
+                 Vector(Orange, Green, Red),
+                 Vector(Orange, Blue, Blue),
+                 Vector(Green, Blue, Red))),
+               new Face(Vector(
+                 Vector(Orange, Yellow, Green),
+                 Vector(Red, Green, White),
+                 Vector(Green, Yellow, Green))),
+               new Face(Vector(
+                 Vector(Blue, Blue, White),
+                 Vector(Orange, Red, White),
+                 Vector(Red, Orange, Red))), 
+               new Face(Vector(
+                 Vector(White, Yellow, Yellow),
+                 Vector(Red, Orange, Red),
+                 Vector(Orange, White, Yellow))),
+               new Face(Vector(
+                 Vector(Blue, Yellow, White),
+                 Vector(Green, White, Green),
+                 Vector(Blue, Red, White))),
+               new Face(Vector(
+                 Vector(Orange, White, Blue),
+                 Vector(Green, Yellow, Blue),
+                 Vector(Yellow, Orange, Yellow))))      
+      assert(cube.rotateClockwise(0) == expected)
     }
   }
   
