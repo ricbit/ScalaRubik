@@ -96,7 +96,7 @@ class RubikSuite extends FunSuite {
     }
   }
 
-  test("Rotate a cube") {
+  test("Rotate a cube, front 0") {
     new RubikTest {
       val expected = new Cube(new Face(Vector(
                  Vector(Orange, Green, Red),
@@ -125,5 +125,34 @@ class RubikSuite extends FunSuite {
       assert(cube.rotateClockwise(0) == expected)
     }
   }
-  
+
+  test("Rotate a cube, front 1") {
+    new RubikTest {
+       val expected = new Cube(new Face(Vector(
+                 Vector(Red, Blue, Red),
+                 Vector(Green, Blue, Blue),
+                 Vector(Orange, Orange, Green))),
+               new Face(Vector(
+                 Vector(Orange, Yellow, Green),
+                 Vector(Red, Green, White),
+                 Vector(Green, Yellow, Green))),
+               new Face(Vector(
+                 Vector(Blue, Yellow, White),
+                 Vector(Green, Yellow, Blue),
+                 Vector(Red, Orange, Red))), 
+               new Face(Vector(
+                 Vector(Orange, White, Blue),
+                 Vector(Green, White, Green),
+                 Vector(Orange, White, Yellow))),
+               new Face(Vector(
+                 Vector(White, Yellow, Yellow),
+                 Vector(Orange, Red, White),
+                 Vector(Blue, Red, White))),
+               new Face(Vector(
+                 Vector(Blue, Blue, White),
+                 Vector(Red, Orange, Red),
+                 Vector(Yellow, Orange, Yellow))))    
+      assert(cube.rotateClockwise(1) == expected)
+    }
+  }
 }
