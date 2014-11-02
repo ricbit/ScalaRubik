@@ -8,7 +8,8 @@ import org.scalatest.junit.JUnitRunner
 class RubikSuite extends FunSuite {
   
   trait RubikTest extends Rubik {
-      val cube = new Cube(new Face(Vector(
+      val cube = new Cube(
+               new Face(Vector(
                  Vector(Red, Blue, Red),
                  Vector(Green, Blue, Blue),
                  Vector(Orange, Orange, Green))),
@@ -51,7 +52,7 @@ class RubikSuite extends FunSuite {
     }
   }
   
-  test("Rotate a 3x3 Face") {
+  test("Rotate a 3x3 Face Clockwise") {
     new RubikTest {
       val origin = new Face(Vector(
           Vector(Red, Blue, Yellow),
@@ -62,6 +63,20 @@ class RubikSuite extends FunSuite {
           Vector(Yellow, Red, Blue),
           Vector(Red, White, Yellow)))
       assert(origin.rotateClockwise == expected)
+    }
+  }
+  
+  test("Rotate a 3x3 Face CounterClockwise") {
+    new RubikTest {
+      val origin = new Face(Vector(
+          Vector(Red, Blue, Yellow),
+          Vector(Orange, Red, White),
+          Vector(Blue, Yellow, Red)))
+      val expected = new Face(Vector(
+          Vector(Yellow, White, Red),
+          Vector(Blue, Red, Yellow),
+          Vector(Red, Orange, Blue)))
+      assert(origin.rotateCounterClockwise == expected)
     }
   }
   
@@ -153,6 +168,37 @@ class RubikSuite extends FunSuite {
                  Vector(Red, Orange, Red),
                  Vector(Yellow, Orange, Yellow))))    
       assert(cube.rotateClockwise(1) == expected)
+    }
+  }
+  
+  test("Left to Front") {
+    new RubikTest {
+       val expected = new Cube(
+               new Face(Vector(
+                 Vector(Blue, Yellow, White),
+                 Vector(Orange, Red, White),
+                 Vector(Red, Orange, Red))), 
+               new Face(Vector(
+                 Vector(Orange, White, Blue),
+                 Vector(Red, Orange, Red),
+                 Vector(Orange, White, Yellow))),
+               new Face(Vector(
+                 Vector(Yellow, Green, White),
+                 Vector(Yellow, White, Red),
+                 Vector(White, Green, Blue))),
+               new Face(Vector(
+                 Vector(Yellow, Green, Blue),
+                 Vector(Orange, Yellow, Blue),
+                 Vector(Yellow, Blue, White))),
+               new Face(Vector(
+                 Vector(Orange, Green, Red),
+                 Vector(Orange, Blue, Blue),
+                 Vector(Green, Blue, Red))),
+              new Face(Vector(
+                 Vector(Green, White, Green),
+                 Vector(Yellow, Green, Yellow),
+                 Vector(Orange, Red, Green))))
+      assert(cube.leftToFront == expected)
     }
   }
 }

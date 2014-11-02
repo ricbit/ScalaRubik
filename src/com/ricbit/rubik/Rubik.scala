@@ -16,8 +16,11 @@ trait Rubik {
 			  
     override def toString() = colors mkString "\n"
     
-    def rotateClockwise(): Face = 
+    lazy val rotateClockwise = 
       new Face(colors.transpose map (_.reverse))
+    
+    lazy val rotateCounterClockwise = 
+      new Face((colors map (_.reverse)).transpose)
     
     def takeSliceFrom(that: Face, slice: Int): Face = {
       def choose(i: Int): Vector[Color] = (if (slice != i) this else that).colors(i)
@@ -35,22 +38,26 @@ trait Rubik {
     val z = left.y
     val faces = List[Cube => Face](_.front, _.back, _.left, _.right, _.up, _.down)
     
-    def rotateClockwise(slice: Int): Cube = {
-      new Cube(
-          if (slice == 0) front.rotateClockwise else front,
-          if (slice == z - 1) back.rotateClockwise else back,
-          left.takeSliceFrom(down, slice),
-          right.takeSliceFrom(up, slice),
-          up.takeSliceFrom(left, slice),
-          down.takeSliceFrom(right, slice)
-      )
-    }
+    def rotateClockwise(slice: Int) = new Cube(
+      if (slice == 0) front.rotateClockwise else front,
+      if (slice == z - 1) back.rotateClockwise else back,
+      left.takeSliceFrom(down, slice),
+      right.takeSliceFrom(up, slice),
+      up.takeSliceFrom(left, slice),
+      down.takeSliceFrom(right, slice)
+    )
+    
+    lazy val leftToFront = new Cube(
+      left, right,
+      up.rotateCounterClockwise, down.rotateClockwise,
+      front.rotateClockwise, back.rotateCounterClockwise
+    )
         
     def ==(that:Cube) = 
       faces forall (x => x(this) == x(that)) 
       
     override def toString = 
-      faces map (x => x(this)) mkString "---\n" 
+      faces map (x => x(this)) mkString "---\n"
   }
   
 }
