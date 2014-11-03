@@ -23,7 +23,7 @@ trait Rubik {
       new Face((colors map (_.reverse)).transpose)
     
     def takeSliceFrom(that: Face, slice: Int): Face = {
-      def choose(i: Int): Vector[Color] = (if (slice != i) this else that).colors(i)
+      def choose(i: Int) = (if (slice != i) this else that).colors(i)
       new Face(((0 until y) map choose).toVector)
     }
 	
@@ -51,6 +51,12 @@ trait Rubik {
       left, right,
       up.rotateCounterClockwise, down.rotateClockwise,
       front.rotateClockwise, back.rotateCounterClockwise
+    )
+       
+    lazy val frontToLeft = new Cube(
+      up.rotateCounterClockwise, down.rotateClockwise,
+      front, back,
+      left.rotateClockwise, right.rotateCounterClockwise
     )
         
     def ==(that:Cube) = 

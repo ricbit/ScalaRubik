@@ -33,6 +33,31 @@ class RubikSuite extends FunSuite {
                  Vector(Blue, Blue, White),
                  Vector(Green, Yellow, Blue),
                  Vector(Yellow, Orange, Yellow))))    
+       val leftRotated = new Cube(
+               new Face(Vector(
+                 Vector(Blue, Yellow, White),
+                 Vector(Orange, Red, White),
+                 Vector(Red, Orange, Red))), 
+               new Face(Vector(
+                 Vector(Orange, White, Blue),
+                 Vector(Red, Orange, Red),
+                 Vector(Orange, White, Yellow))),
+               new Face(Vector(
+                 Vector(Yellow, Green, White),
+                 Vector(Yellow, White, Red),
+                 Vector(White, Green, Blue))),
+               new Face(Vector(
+                 Vector(Yellow, Green, Blue),
+                 Vector(Orange, Yellow, Blue),
+                 Vector(Yellow, Blue, White))),
+               new Face(Vector(
+                 Vector(Orange, Green, Red),
+                 Vector(Orange, Blue, Blue),
+                 Vector(Green, Blue, Red))),
+              new Face(Vector(
+                 Vector(Green, White, Green),
+                 Vector(Yellow, Green, Yellow),
+                 Vector(Orange, Red, Green))))
   }
   
   test("Build a Face") {
@@ -173,32 +198,13 @@ class RubikSuite extends FunSuite {
   
   test("Left to Front") {
     new RubikTest {
-       val expected = new Cube(
-               new Face(Vector(
-                 Vector(Blue, Yellow, White),
-                 Vector(Orange, Red, White),
-                 Vector(Red, Orange, Red))), 
-               new Face(Vector(
-                 Vector(Orange, White, Blue),
-                 Vector(Red, Orange, Red),
-                 Vector(Orange, White, Yellow))),
-               new Face(Vector(
-                 Vector(Yellow, Green, White),
-                 Vector(Yellow, White, Red),
-                 Vector(White, Green, Blue))),
-               new Face(Vector(
-                 Vector(Yellow, Green, Blue),
-                 Vector(Orange, Yellow, Blue),
-                 Vector(Yellow, Blue, White))),
-               new Face(Vector(
-                 Vector(Orange, Green, Red),
-                 Vector(Orange, Blue, Blue),
-                 Vector(Green, Blue, Red))),
-              new Face(Vector(
-                 Vector(Green, White, Green),
-                 Vector(Yellow, Green, Yellow),
-                 Vector(Orange, Red, Green))))
-      assert(cube.leftToFront == expected)
+      assert(cube.leftToFront == leftRotated)
+    }
+  }
+
+  test("Front to Left") {
+    new RubikTest {
+      assert(leftRotated.frontToLeft == cube)
     }
   }
 }
